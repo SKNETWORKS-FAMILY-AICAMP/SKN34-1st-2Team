@@ -1,0 +1,6 @@
+API_KEY = "test"
+DB_HOST = "host"
+DB_USER = "user"
+DB_PASSWORD = "pass"
+DB_NAME = "name"
+NOW = ""
