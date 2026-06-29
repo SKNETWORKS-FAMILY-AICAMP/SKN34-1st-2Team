@@ -17,3 +17,6 @@ sample1 = st.Page("pages/sample1.py", title="샘플1")
 
 pg = st.navigation([main, sample1])
 pg.run()
+
+
+

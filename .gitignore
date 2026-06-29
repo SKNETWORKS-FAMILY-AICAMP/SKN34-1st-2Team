@@ -133,6 +133,7 @@ env.bak/
 venv.bak/
 venv_project/
 __pycache__/
+.streamlit/
 
 # Spyder project settings
 .spyderproject
