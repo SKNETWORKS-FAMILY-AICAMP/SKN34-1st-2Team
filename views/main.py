@@ -1,8 +1,6 @@
 import streamlit as st
 import components.sample as sp1
 from services.api import api
-import streamlit.components.v1 as components
-
 
 #예시 재사용 컴포넌트
 sp1.header() 
@@ -13,7 +11,6 @@ gas_val = st.button('주유소')
 
 kind = "parking"
 kind_txt = "주차장"
-
 
 if parking_val:
     kind = "parking"
