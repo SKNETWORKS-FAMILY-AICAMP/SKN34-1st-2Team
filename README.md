@@ -8,7 +8,7 @@ project_1st/
 │  └─ sample.py
 ├─ data/ - 데이터 파일(csv, json 들)
 ├─ docs/ - README 리소스
-├─ pages/ - 화면 구성
+├─ views/ - 화면 구성
 │  ├─ main.py
 │  └─ sample1.py
 ├─ services/ - 데이터 처리 및 핵심 로직
