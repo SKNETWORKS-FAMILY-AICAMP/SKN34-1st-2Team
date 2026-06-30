@@ -6,5 +6,5 @@ class Database:
 
     def connect(self):
         return cf.DB_HOST
-    
+
 db = Database()
