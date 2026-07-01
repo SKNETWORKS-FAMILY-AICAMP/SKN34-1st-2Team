@@ -15,9 +15,32 @@ st.markdown("""
             color: #31333f !important;
             font-weight: 700;
         }
+
+        @-webkit-keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+            }
+            @keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        .fade-in {
+            -webkit-animation: fade-in 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+            animation: fade-in 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+        }
         </style>
 """, unsafe_allow_html=True)
-# 1. 이미지를 HTML에 바로 심을 수 있게 기기용 데이터로 바꾸는 함수
+
+#이미지를 HTML에 바로 심을 수 있게 기기용 데이터로 바꾸는 함수
 def get_image_link_html(file_path, link_target, width=200):
     with open(file_path, "rb") as f:
         data = f.read()
@@ -25,12 +48,7 @@ def get_image_link_html(file_path, link_target, width=200):
     src = f"data:image/png;base64,{b64}"
 
     # 하나의 덩어리로 HTML 구성
-    return f'<a href="{link_target}" target="_self" class="st-link"><img src="{src}" style="width:{width}px;">당 신 의 주 유 / 주 차 를 빠 르 게 😋</a>'
+    return f'<a href="{link_target}" target="_self" class="st-link fade-in"><img src="{src}" style="width:{width}px;">당 신 의 주 유 / 주 차 를 빠 르 게 😋</a>'
 
-#주차장 주소로 검색 예시
-search_val = st.text_input(f"{kind_txt} 주소 입력")
-if search_val:
-    pk_info = api.search_address(kind, search_val)
-    st.write(pk_info)
-else:
-    st.write("주소입력")
+logo_html = get_image_link_html("assets/logo.png", "oil", width=400)
+st.markdown(logo_html, unsafe_allow_html=True)

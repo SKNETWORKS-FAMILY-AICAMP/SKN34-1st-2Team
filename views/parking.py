@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_extras.specialized_inputs import search_input
 import mysql.connector
-from utils.display_list import display_park
+from components.display_list import display_park
 
 # 페이지 레이아웃을 꽉찬 화면으로 설정
 st.set_page_config(layout='wide')
@@ -22,8 +22,8 @@ with list_col:
     search_q = search_input("Search", label_visibility="collapsed", key="ex_search")
     if search_q:
         # 검색 로직 구현
-        pass
+        display_park('all', search_q)
 
     # 검색을 하지 않으면 주차장 테이블 전체 표시
     else:
-        display_park('all')
+        st.markdown('<p style="text-align: center; padding: 20px 0;">검색된 내용이 없습니다.</p>', unsafe_allow_html=True)

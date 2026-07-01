@@ -18,9 +18,9 @@ class Api:
                 "url": "https://api.data.go.kr/openapi/tn_pubr_prkplce_info_api",
                 "cache": "parking.pkl"
             },
-            "gas": {
+            "oil": {
                 "url": "https://api.data.go.kr/openapi/tn_pubr_public_conm_api",
-                "cache": "gas.pkl"
+                "cache": "oil.pkl"
             }
         }
         
@@ -87,12 +87,36 @@ class Api:
     def search_address(self, kind, keyword):
         data = self.connect(kind)
         result = []
+        
+        if kind == "parking":
+            key1 = "lnmadr"
+            key2 = "rdnmadr"
+        elif kind == "oil":
+            key1 = "lctnRoadNm"
+            key2 = "lctnLotnoAddr"
 
         #지번, 도로명 검색
         for item in data:
-            if item.get('lnmadr', "").startswith(keyword) or item.get('rdnmadr', "").startswith(keyword):
+            if item.get(key1, "").startswith(keyword) or item.get(key2, "").startswith(keyword):
                 result.append(item)
 
         return result
+    
+    #주유소,주차장명 검색 메서드
+    def search_name(self, kind, keyword):
+        data = self.connect(kind)
+        result = []
+        
+        if kind == "parking":
+            key = "prkplceNm"
+        elif kind == "oil":
+            key = "conmNm"
 
+        #지번, 도로명 검색
+        for item in data:
+            if item.get(key, "").startswith(keyword):
+                result.append(item)
+
+        return result
+    
 api = Api()
