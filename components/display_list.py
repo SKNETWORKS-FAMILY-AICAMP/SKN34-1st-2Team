@@ -19,7 +19,7 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil
 
     # 내 주유소 목록 시각화
     elif condition == 'my_oil':
-        data = get_wish('o')
+        data = get_wish('o', keyword)
         name = "name"
         addr1 = "addr"
         addr2 = 'addr'    
@@ -30,11 +30,13 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil
 
     # 착한 주유소 목록 시각화
     elif condition == 'good_oil':
-        data = get_good_oil()
+        data = get_good_oil(keyword)
         name = "g_name"
         addr1 = "g_addr"
         addr2 = 'g_addr'    
         tel = "g_phone"
+        g_price = 'gasoline_price'
+        d_price = 'diesel_price'
         lat = "lat"
         lot = "lot"
         tip = "rprsvNm"
@@ -153,7 +155,7 @@ def display_park(condition='all', keyword=""): # all, my_park 중 택일
         tel = "phoneNumber"
 
     elif condition == 'my_park':
-        data = get_wish('p')
+        data = get_wish('p', keyword)
         name = "name" 
         addr1 = "addr" # 도로명
         addr2 = "addr" #지번 

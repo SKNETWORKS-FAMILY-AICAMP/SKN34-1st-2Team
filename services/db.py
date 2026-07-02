@@ -37,7 +37,7 @@ class Database:
             if not self.conn or not self.conn.is_connected():
                 self.conn = self.connect()
 
-            cursor = self.conn.cursor()
+            cursor = self.conn.cursor(dictionary=True)
 
             cursor.execute(sql, params or ())
 
