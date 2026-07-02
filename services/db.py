@@ -25,34 +25,25 @@ class Database:
         if self.conn and self.conn.is_connected():
             self.conn.close()
             
+    # crud 함수
     def execute(self, sql, params=None):
-        """
-        SELECT / INSERT / UPDATE / DELETE 모두 처리
-        SELECT면 list 반환
-        나머지는 rowcount 반환
-        """
-
         try:
-            # connection 체크 (Streamlit 대비)
             if not self.conn or not self.conn.is_connected():
                 self.conn = self.connect()
 
-            cursor = self.conn.cursor()
+            with self.conn.cursor(dictionary=True) as cursor: 
+                # 값이 있으면 값을 넣고 없으면 튜플
+                cursor.execute(sql, params or ())
+                
+                # select 인지 검사
+                if sql.strip().lower().startswith("select"):
+                    return cursor.fetchall()
 
-            cursor.execute(sql, params or ())
-
-            # SELECT
-            if sql.strip().lower().startswith("select"):
-                result = cursor.fetchall()
-            else:
                 self.conn.commit()
-                result = cursor.rowcount
-
-            cursor.close()
-            return result
+                return cursor.rowcount
 
         except mysql.connector.Error as err:
-            print(f"SQL 실행 실패: {err}")
+            print("SQL ERROR:", err)
             return None
 
 db = Database()
