@@ -77,10 +77,14 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil
             
             # 주유소 정보 레이아웃
             with oil_info_col:
-                # 유가 정보 db에서 받아와서 툴팁에 작성
                 st.subheader(i[name], help=i.get('tmp', ""))
                 st.text(i[addr1] if i[addr1] else i[addr2])
                 st.text(i[tel] if i[tel] else "번호없음")
+                
+                # 유가 정보 db에서 받아와서 툴팁에 작성
+                if condition == 'good_oil':
+                    st.caption(f'휘발유: {i[g_price]}원 경유: {i[d_price]}원')
+
             with my_oil_button_col:
                 if st.button("선택", key=i[name]):
                     st.session_state.oil_location = i[addr1] if i[addr1] else i[addr2]
