@@ -1,8 +1,8 @@
 import streamlit as st
+import math
 from services.api import api
 from services.wish_control import is_wish, toggle_wish, get_good_oil, get_wish
-import mysql.connector
-import math
+from services.db import db
 
 # 주유소 목록을 체크박스 조건에 따라 시각화
 def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil
@@ -84,6 +84,7 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil
             with my_oil_button_col:
                 if st.button("선택", key=i[name]):
                     st.session_state.oil_location = i[addr1] if i[addr1] else i[addr2]
+                    # db.execute("insert into oil_log set o_name = %s, o_addr = %s, o_phone = %s, latitude = %s,  ")
                     st.rerun()
                     
                 # 찜버튼 레이아웃

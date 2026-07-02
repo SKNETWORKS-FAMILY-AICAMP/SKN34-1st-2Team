@@ -34,15 +34,31 @@
 project_1st/
 ├─ assets/ - 미디어 파일(이미지, 동영상 등)
 ├─ components/ - 재사용 가능한 컴포넌트(UI)
-│  └─ sample.py
+│  └─ display_list.py
 ├─ data/ - 데이터 파일(csv, json 들)
+│  └─ faq_data.csv
+│  └─ gasstation_data.csv
+│  └─ good_oil_info.csv
+│  └─ parkinglots_data.csv
 ├─ docs/ - README 리소스
 ├─ pages/ - 화면 구성
 │  ├─ main.py
 │  └─ sample1.py
 ├─ services/ - 데이터 처리 및 핵심 로직
-│  └─ sample.py
+│  └─ api.py
+│  └─ crawling.ipynb
+│  └─ db_insert.py
+│  └─ db_select.py
+│  └─ db.py
+│  └─ faq_crawling.py
+│  └─ wish_control.py
 ├─ utils/ - 공통 함수
+│  └─ kakao.py
+├─ views/ 
+│  └─ faq.py
+│  └─ main.py
+│  └─ oil.py
+│  └─ parking.py
 ├─ .gitignore
 ├─ app.py - 기본 실행 파일
 ├─ config.py - 환경설정 및 전역 변수 관리
@@ -107,6 +123,13 @@ project_1st/
 
 
 ## 📌 수행결과
+(삽입예정!!)  
+![main](./assets/main_page.png)  
+![oil](./assets/oil_page.png)  
+![goodoil](./assets/goodoil_page.png)  
+![parking](./assets/parking_page.png)  
+![myparking](./assets/myparking_page.png)  
+![faq](./assets/faq_page.png)  
 
 
 ## 💭 한 줄 회고
