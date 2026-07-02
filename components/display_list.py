@@ -1,5 +1,6 @@
 import streamlit as st
 import math
+from datetime import datetime as dt
 from services.api import api
 from services.wish_control import is_wish, toggle_wish, get_good_oil, get_wish
 from services.db import db
@@ -88,7 +89,8 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil
             with my_oil_button_col:
                 if st.button("선택", key=i[name]):
                     st.session_state.oil_location = i[addr1] if i[addr1] else i[addr2]
-                    # db.execute("insert into oil_log set o_name = %s, o_addr = %s, o_phone = %s, latitude = %s,  ")
+                    db.execute("insert into oil_log set o_name = %s, o_addr = %s, o_phone = %s, log_datetime = %s",
+                            (i[name], st.session_state.oil_location, i[tel], dt.now().strftime("%Y%m%d %H:%M:%S")))
                     st.rerun()
                     
                 # 찜버튼 레이아웃
@@ -206,6 +208,8 @@ def display_park(condition='all', keyword=""): # all, my_park 중 택일
                 with my_park_button_col:
                     if st.button("선택", key=i[name]):
                         st.session_state.park_location = i[addr1] if i[addr1] else i[addr2]
+                        db.execute("insert into park_log set p_name = %s, p_addr = %s, p_phone = %s, log_datetime = %s",
+                            (i[name], st.session_state.oil_location, i[tel], dt.now().strftime("%Y%m%d %H:%M:%S")))
                         st.rerun()
                         
                     if not is_wish('p', i[name], i[addr1]): # 내 주차장 테이블에 없으면 빈별 이모지

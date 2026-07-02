@@ -14,7 +14,7 @@ class Database:
                 database = cf.DB_NAME
             ) 
             if connection.is_connected():
-                print('db연결성공') # 추후삭제
+                # print('db연결성공') # 추후삭제
                 return connection
             
         except mysql.connector.Error as err:

@@ -36,7 +36,7 @@ with map_col:
     </head>
 
     <body style="margin:0;">
-    <div id="map" style="width:100%;height:750px;"></div>
+    <div id="map" style="width:100%;height:790px;"></div>
 
     <script>
 
@@ -62,7 +62,7 @@ with map_col:
     </body>
     </html>
     """
-    components.html(html, height=750)
+    components.html(html, height=790)
     
 with list_col:
     # 주차장 목록 레이아웃 작성
