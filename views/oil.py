@@ -67,7 +67,7 @@ with map_col:
 with list_col:
         # 주유소 목록 레이아웃 작성
         # 검색, 착한주유소 보기, 내 주유소 보기 라디오 버튼 생성
-        oil_radio = st.radio(label='oil_radio', options = ['검색', '착한주유소 보기', '내 주유소 보기'], horizontal=True)
+        oil_radio = st.radio(label='oil_radio', options = ['검색', '착한주유소 보기', '내 주유소 보기'], horizontal=True, label_visibility='hidden')
 
         # 검색창 생성
         search_q = search_input("Search", label_visibility="collapsed", key="ex_search")

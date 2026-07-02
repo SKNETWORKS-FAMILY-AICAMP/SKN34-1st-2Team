@@ -67,7 +67,7 @@ with map_col:
 with list_col:
     # 주차장 목록 레이아웃 작성
     # 검색, 내 주차장 보기 라디오 버튼 생성
-    park_radio = st.radio(label='park_radio', options = ['검색', '내 주차장 보기'], horizontal=True)
+    park_radio = st.radio(label='park_radio', options = ['검색', '내 주차장 보기'], horizontal=True, label_visibility='hidden')
 
     # 검색창 생성
     search_q = search_input("Search", label_visibility="collapsed", key="ex_search")
