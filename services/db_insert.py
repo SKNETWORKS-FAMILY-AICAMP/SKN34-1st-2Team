@@ -94,7 +94,7 @@ if db.conn:
     cursor = db.conn.cursor()
 
     try:
-        with open("data/cache/good_oil_info.csv", "r", encoding = 'utf-8-sig') as csvfile:
+        with open("data/good_oil_info.csv", "r", encoding = 'utf-8-sig') as csvfile:
             reader = csv.DictReader(csvfile)
 
             insert_count = 0
