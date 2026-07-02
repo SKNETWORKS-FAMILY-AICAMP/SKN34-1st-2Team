@@ -4,7 +4,7 @@ import mysql.connector
 import math
 
 # 주유소 목록을 체크박스 조건에 따라 시각화
-def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil, my_good_oil 중 택일
+def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil
     # 형식 통일
     if condition == 'all':
         data = api.search_address('oil', keyword)
@@ -14,7 +14,27 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil, my_good_
         lat = "lat"
         lot = "lot"
         tip = "rprsvNm"
-        
+
+    # 내 주유소 목록 시각화
+    elif condition == 'my_oil':
+        data = api.search_address('oil', keyword)
+        name = "conmNm"
+        addr = "lctnRoadNm"    
+        tel = "telno"
+        lat = "lat"
+        lot = "lot"
+        tip = "rprsvNm"
+
+    # 착한 주유소 목록 시각화
+    elif condition == 'good_oil':
+        data = api.search_address('oil', keyword)
+        name = "conmNm"
+        addr = "lctnRoadNm"    
+        tel = "telno"
+        lat = "lat"
+        lot = "lot"
+        tip = "rprsvNm"
+
     # 주유소 명으로 불러오기
     # api_val = api.search_name('oil', '(주)대농석유 남태령주유소')
     # st.write(api_val[0][addr])
@@ -80,18 +100,6 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil, my_good_
             if not data:
                 # 검색 내용이 없으면
                 st.markdown('<p style="text-align:center;padding:20px;">검색된 내용이 없습니다.</p>', unsafe_allow_html=True)
-
-    # 내 주유소 목록 시각화
-    elif condition == 'my_oil':
-        pass
-
-    # 착한 주유소 목록 시각화
-    elif condition == 'good_oil':
-        pass
-
-    # 내 주유소 and 착한 주유소 목록 시각화
-    elif condition == 'my_good_oil':
-        pass
 
     if data:
         # 페이지 버튼 UI

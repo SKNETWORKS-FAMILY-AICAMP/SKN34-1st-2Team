@@ -15,15 +15,17 @@ with map_col:
 
 with list_col:
     # 주차장 목록 레이아웃 작성
-    # 내 주차장 보기 체크박스 생성
-    is_my_oil = st.checkbox('내 주차장 보기')
+    # 검색, 내 주차장 보기 라디오 버튼 생성
+    park_radio = st.radio(label='park_radio', options = ['검색', '내 주차장 보기'], horizontal=True)
 
     # 검색창 생성
     search_q = search_input("Search", label_visibility="collapsed", key="ex_search")
     if search_q:
         # 검색 로직 구현
         display_park('all', search_q)
-
-    # 검색을 하지 않으면 주차장 테이블 전체 표시
+    # 내 주차장 보기
+    elif park_radio == '내 주차장 보기':
+        display_park('my_park')
+    # 검색이 없을 때
     else:
         st.markdown('<p style="text-align: center; padding: 20px 0;">검색된 내용이 없습니다.</p>', unsafe_allow_html=True)
