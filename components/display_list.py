@@ -160,7 +160,7 @@ def display_park(condition='all', keyword=""): # all, my_park 중 택일
         name = "name" 
         addr1 = "addr" # 도로명
         addr2 = "addr" #지번 
-        tel = "phoneNumber"
+        tel = "phone"
     
     # 페이징
     PAGE_SIZE = 3      # 한 페이지당 데이터 개수
