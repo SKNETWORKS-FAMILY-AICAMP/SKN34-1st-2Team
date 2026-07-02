@@ -107,6 +107,13 @@ project_1st/
 
 
 ## 📌 수행결과
+(삽입예정!!)  
+![main](./assets/main_page.png)  
+![oil](./assets/oil_page.png)  
+![goodoil](./assets/goodoil_page.png)  
+![parking](./assets/parking_page.png)  
+![myparking](./assets/myparking_page.png)  
+![faq](./assets/faq_page.png)  
 
 
 ## 💭 한 줄 회고
