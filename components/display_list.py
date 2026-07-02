@@ -1,6 +1,6 @@
 import streamlit as st
 from services.api import api
-from services.wish_control import is_wish, toggle_wish
+from services.wish_control import is_wish, toggle_wish, get_good_oil, get_wish
 import mysql.connector
 import math
 
@@ -19,20 +19,20 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil
 
     # 내 주유소 목록 시각화
     elif condition == 'my_oil':
-        data = api.search_address('oil', keyword)
-        name = "conmNm"
-        addr = "lctnRoadNm"    
-        tel = "telno"
+        data = get_wish('o')
+        name = "name"
+        addr = "addr"    
+        tel = "phone"
         lat = "lat"
         lot = "lot"
         tip = "rprsvNm"
 
     # 착한 주유소 목록 시각화
     elif condition == 'good_oil':
-        data = api.search_address('oil', keyword)
-        name = "conmNm"
-        addr = "lctnRoadNm"    
-        tel = "telno"
+        data = get_good_oil()
+        name = "g_name"
+        addr = "g_addr"    
+        tel = "g_phone"
         lat = "lat"
         lot = "lot"
         tip = "rprsvNm"
@@ -62,52 +62,51 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil
     page_items = data[start:end]
 
     # 전체 주유소 목록 시각화
-    if condition == 'all':
-        with st.container(height=650):
-            for idx, i in enumerate(page_items):  # 현재 페이지에 표시해야 하는 주유소 목록만큼 반복
-                icon_col, oil_info_col, my_oil_button_col = st.columns([1, 4, 1])
 
-                # 주유소 아이콘 레이아웃
-                with icon_col:
-                    st.subheader('⛽')
-
-                # 주유소 정보 레이아웃
-                with oil_info_col:
-                    # 유가 정보 db에서 받아와서 툴팁에 작성
-                    st.subheader(i[name], help=i.get('tmp', ""))
-                    st.text(i[addr1] if i[addr1] else i[addr2])
-                    st.text(i[tel] if i[tel] else "번호없음")
-
-                with my_oil_button_col:
-                    if st.button("선택", key=i[name]):
-                        st.session_state.oil_location = i[addr1] if i[addr1] else i[addr2]
+    with st.container(height=650):
+        for idx, i in enumerate(page_items):  # 현재 페이지에 표시해야 하는 주유소 목록만큼 반복
+            icon_col, oil_info_col, my_oil_button_col = st.columns([1, 4, 1])
+            
+            # 주유소 아이콘 레이아웃
+            with icon_col:
+                st.subheader('⛽')
+            
+            # 주유소 정보 레이아웃
+            with oil_info_col:
+                # 유가 정보 db에서 받아와서 툴팁에 작성
+                st.subheader(i[name], help=i.get('tmp', ""))
+                st.text(i[addr1] if i[addr1] else i[addr2])
+                st.text(i[tel] if i[tel] else "번호없음")
+            with my_oil_button_col:
+                if st.button("선택", key=i[name]):
+                    st.session_state.oil_location = i[addr1] if i[addr1] else i[addr2]
+                    st.rerun()
+                    
+                # 찜버튼 레이아웃
+                if not is_wish('o', i[name], i[addr]):  # 내 주유소 테이블에 없으면 빈별 이모지
+                    if st.button(
+                        '☆',
+                        key=f"oil_{i[name]}"
+                    ):
+                        toggle_wish('o', i[name], i[addr], i[tel], False) # 클릭하면 테이블에 추가
                         st.rerun()
-                        
-                    # 찜버튼 레이아웃
-                    if not is_wish('o', i[name], i[addr]):  # 내 주유소 테이블에 없으면 빈별 이모지
-                        if st.button(
-                            '☆',
-                            key=f"oil_{i[name]}"
-                        ):
-                            toggle_wish('o', i[name], i[addr], i[tel], False) # 클릭하면 테이블에 추가
-                            st.rerun()
-
-                    else:  # 내 주유소 테이블에 있으면 별 이모지
-                        if st.button(
-                            '⭐',
-                            key=f"oil_{i[name]}"
-                        ):
-                            toggle_wish('o', i[name], i[addr], i[tel], True) # 클릭하면 테이블에서 삭제
-                            st.rerun()
-
-                if idx + 1< len(page_items):
-                    st.divider()
-                else:
-                    st.markdown('<div style="disply: block; height: 55px;"></div>', unsafe_allow_html=True)
                 
-            if not data:
-                # 검색 내용이 없으면
-                st.markdown('<p style="text-align:center;padding:20px;">검색된 내용이 없습니다.</p>', unsafe_allow_html=True)
+                else:  # 내 주유소 테이블에 있으면 별 이모지
+                    if st.button(
+                        '⭐',
+                        key=f"oil_{i[name]}"
+                    ):
+                        toggle_wish('o', i[name], i[addr], i[tel], True) # 클릭하면 테이블에서 삭제
+                        st.rerun()
+            
+            if idx + 1< len(page_items):
+                st.divider()
+            else:
+                st.markdown('<div style="disply: block; height: 55px;"></div>', unsafe_allow_html=True)
+            
+        if not data:
+            # 검색 내용이 없으면
+            st.markdown('<p style="text-align:center;padding:20px;">검색된 내용이 없습니다.</p>', unsafe_allow_html=True)
 
     if data:
         # 페이지 버튼 UI
@@ -150,6 +149,13 @@ def display_park(condition='all', keyword=""): # all, my_park 중 택일
         addr1 = "rdnmadr" # 도로명
         addr2 = "lnmadr" #지번 
         tel = "phoneNumber"
+
+    elif condition == 'my_park':
+        data = get_wish('p')
+        name = "name" 
+        addr1 = "addr" # 도로명
+        addr2 = "lnmadr" #지번 
+        tel = "phoneNumber"
     
     # 페이징
     PAGE_SIZE = 3      # 한 페이지당 데이터 개수
@@ -172,48 +178,43 @@ def display_park(condition='all', keyword=""): # all, my_park 중 택일
     page_items = data[start:end]
 
     # 전체 주차장 목록 시각화
-    if condition == 'all':
-        with st.container(height=650):
-            for idx, i in enumerate(page_items):  # 현재 페이지에 표시해야 하는 주유소 목록만큼 반복
-                with st.container():
-                    icon_col, park_info_col, my_park_button_col = st.columns([1, 4, 1])
-
-                    # 주차장 아이콘 레이아웃
-                    with icon_col:
-                        st.subheader('🅿️')
-
-                    # 주차장 정보 레이아웃
-                    with park_info_col:
-                        st.subheader(i[name], help=i.get('tmp', ""))
-                        st.text(i[addr1] if i[addr1] else i[addr2])
-                        st.text(i[tel] if i[tel] else "번호없음")
-
-                    # 찜버튼 레이아웃
-                    with my_park_button_col:
-                        if st.button("선택", key=i[name]):
-                            st.session_state.park_location = i[addr1] if i[addr1] else i[addr2]
-                            st.rerun()
-                            
-                        if not is_wish('p', i[name], i[addr]): # 내 주차장 테이블에 없으면 빈별 이모지
-                            if st.button('☆', key=f"oil_{i[name]}"): 
-                                toggle_wish('p', i[name], i[addr], i[tel], False)
-                                st.rerun()
-                        else: # 내 주차장 테이블에 있으면 별 이모지
-                            if st.button('⭐', key=f"oil_{i[name]}"):
-                                toggle_wish('p', i[name], i[addr], i[tel], True) 
-                                st.rerun()
-
-                    if idx + 1< len(page_items):
-                        st.divider()
-                    else:
-                        st.markdown('<div style="disply: block; height: 55px;"></div>', unsafe_allow_html=True)
-                    if not data:
-                        # 검색 내용이 없으면
-                        st.markdown('<p style="text-align:center;padding:20px;">검색된 내용이 없습니다.</p>', unsafe_allow_html=True)
+    with st.container(height=650):
+        for idx, i in enumerate(page_items):  # 현재 페이지에 표시해야 하는 주유소 목록만큼 반복
+            with st.container():
+                icon_col, park_info_col, my_park_button_col = st.columns([1, 4, 1])
                 
-    # 내 주차장 목록 시각화
-    elif condition == 'my_park':
-        pass
+                # 주차장 아이콘 레이아웃
+                with icon_col:
+                    st.subheader('🅿️')
+
+                # 주차장 정보 레이아웃
+                with park_info_col:
+                    st.subheader(i[name], help=i.get('tmp', ""))
+                    st.text(i[addr1] if i[addr1] else i[addr2])
+                    st.text(i[tel] if i[tel] else "번호없음")
+
+                # 찜버튼 레이아웃
+                with my_park_button_col:
+                    if st.button("선택", key=i[name]):
+                        st.session_state.park_location = i[addr1] if i[addr1] else i[addr2]
+                        st.rerun()
+                        
+                    if not is_wish('p', i[name], i[addr]): # 내 주차장 테이블에 없으면 빈별 이모지
+                        if st.button('☆', key=f"oil_{i[name]}"): 
+                            toggle_wish('p', i[name], i[addr], i[tel], False)
+                            st.rerun()
+                    else: # 내 주차장 테이블에 있으면 별 이모지
+                        if st.button('⭐', key=f"oil_{i[name]}"):
+                            toggle_wish('p', i[name], i[addr], i[tel], True) 
+                            st.rerun()
+
+                if idx + 1< len(page_items):
+                    st.divider()
+                else:
+                    st.markdown('<div style="disply: block; height: 55px;"></div>', unsafe_allow_html=True)
+                if not data:
+                    # 검색 내용이 없으면
+                    st.markdown('<p style="text-align:center;padding:20px;">검색된 내용이 없습니다.</p>', unsafe_allow_html=True)
     
     if data:
         # 페이지 버튼 UI
