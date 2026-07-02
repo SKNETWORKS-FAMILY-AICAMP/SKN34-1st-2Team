@@ -5,8 +5,8 @@
 ## 👥 팀 소개
 | 이현준 | 김기호 | 김현지 | 송승재 |
 |:----------:|:----------:|:----------:|:----------:|
-|<br>|<br>|Database 설계 및 연동,<br>데이터 저장|<br>|
-| [GitHub]() | [GitHub]() | [GitHub](https://github.com/HJK013) | [GitHub]() |
+|<br>|<br>|Database 설계 및 연동<br>데이터 저장|<br>|
+| [GitHub](https://github.com/gksrkd2) | [GitHub](https://github.com/kyo-135) | [GitHub](https://github.com/HJK013) | [GitHub](https://github.com/Genus-Jae) |
 
 ## 📋 프로젝트 개요
 > 개발 기간 : 2026.06.26 - 2026.07.03
@@ -27,18 +27,6 @@
 * **Language:** `Python 3.12.10`
 * **Database:** `MySQL` 
 * **Web Framework:** `Streamlit`
-
-
-## ⚙️ ERD
-**<주요 테이블 관계>**  
-`goodoil` : 착한 주유소 저장 테이블로 이름, 주소, 전화번호, 가격정보 등 저장  
-`wishllist` : 즐겨찾기 저장 테이블로 주유소/주차장 타입, 이름, 주소, 전화번호 등 저장  
-`park_log`, `oil_log`: 주차장과 주유소 데이터를 저장  
-
-## 📌 수행결과
-
-
-
 
 ## 🗂️ 폴더구조
 ```
@@ -61,11 +49,64 @@ project_1st/
 └─ requirements.txt
 ```
 
+## ⚙️ ERD
+**<주요 테이블 관계>**  
+`goodoil` : 착한 주유소 저장 테이블로 이름, 주소, 전화번호, 가격정보 등 저장  
+`wishllist` : 즐겨찾기 저장 테이블로 주유소/주차장 타입, 이름, 주소, 전화번호 등 저장  
+`park_log`, `oil_log`: 주차장과 주유소 데이터를 저장  
+![ERD](./assets/erd.png)  
+
+| 컬럼명 | 데이터 타입 | Null | Key | Default | Extra |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| goodoil_id | int | NO | PRI | [NULL] | auto_increment |
+| g_type | varchar(3) | YES | | o | |
+| g_name | varchar(100) | NO | | [NULL] | |
+| g_addr | varchar(255) | YES | UNI | [NULL] | |
+| g_phone | varchar(50) | YES | | [NULL] | |
+| gasoline_price | int | YES | | [NULL] | |
+| diesel_price | int | YES | | [NULL] | |   
+
+| 컬럼명 | 데이터 타입 | Null | Key | Default | Extra |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| wish_id | int | NO | PRI | [NULL] | auto_increment |
+| type | varchar(3) | YES | | [NULL] | |
+| name | varchar(100) | NO | | [NULL] | |
+| addr | varchar(255) | YES | | [NULL] | |
+| phone | varchar(50) | YES | | [NULL] | |
+| etc | varchar(100) | YES | | [NULL] | |
+| created_at | timestamp | YES | | CURRENT_TIMESTAMP | DEFAULT_GENERATED |   
+
+| 컬럼명 | 데이터 타입 | Null | Key | Default | Extra |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| oil_id | int | NO | PRI | [NULL] | auto_increment |
+| o_type | varchar(3) | YES | | o | |
+| o_name | varchar(100) | NO | | [NULL] | |
+| o_addr | varchar(255) | YES | UNI | [NULL] | |
+| o_phone | varchar(50) | YES | | [NULL] | |
+| latitude | double | YES | | [NULL] | |
+| longitude | double | YES | | [NULL] | |    
+
+| 컬럼명 | 데이터 타입 | Null | Key | Default | Extra |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| park_id | int | NO | PRI | [NULL] | auto_increment |
+| p_type | varchar(3) | YES | | p | |
+| p_name | varchar(100) | NO | | [NULL] | |
+| p_addr | varchar(255) | YES | UNI | [NULL] | |
+| p_phone | varchar(50) | YES | | [NULL] | |
+| latitude | double | YES | | [NULL] | |
+| longitude | double | YES | | [NULL] | |  
+
+
 ## 📰 사용 데이터
 - 공공데이터포털  
   - [전국주차장정표준데이터](https://www.data.go.kr/data/15012896/standard.do#/layer_data_infomation)
   - [전국주유소표준데이터](https://www.data.go.kr/data/15129441/standard.do)
 - 오피넷
+
+
+
+## 📌 수행결과
+
 
 ## 💭 한 줄 회고
 > **이현준**  
