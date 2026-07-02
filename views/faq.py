@@ -3,7 +3,7 @@ import pandas as pd
 import os
 
 # 1. 데이터 로드 
-EXCEL_PATH = r'../data\faq_data.xlsx'
+EXCEL_PATH = r'data/faq_data.xlsx'
 #../data\views\faq.py
 # 상대 경로 복사
 # data\faq_data.xlsx
