@@ -1,5 +1,6 @@
 import streamlit as st
 from services.api import api
+from services.wish_control import is_wish, toggle_wish
 import mysql.connector
 import math
 
@@ -83,16 +84,21 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil
                         st.rerun()
                         
                     # 찜버튼 레이아웃
-                    if True:  # 내 주유소 테이블에 없으면 빈별 이모지
-                        my_oil_button = st.button(
+                    if not is_wish('o', i[name], i[addr]):  # 내 주유소 테이블에 없으면 빈별 이모지
+                        if st.button(
                             '☆',
                             key=f"oil_{i[name]}"
-                        )
+                        ):
+                            toggle_wish('o', i[name], i[addr], i[tel], False) # 클릭하면 테이블에 추가
+                            st.rerun()
+
                     else:  # 내 주유소 테이블에 있으면 별 이모지
-                        my_oil_button = st.button(
+                        if st.button(
                             '⭐',
                             key=f"oil_{i[name]}"
-                        )
+                        ):
+                            toggle_wish('o', i[name], i[addr], i[tel], True) # 클릭하면 테이블에서 삭제
+                            st.rerun()
 
                 if idx + 1< len(page_items):
                     st.divider()
@@ -188,10 +194,14 @@ def display_park(condition='all', keyword=""): # all, my_park 중 택일
                             st.session_state.park_location = i[addr1] if i[addr1] else i[addr2]
                             st.rerun()
                             
-                        if True: # 내 주차장 테이블에 없으면 빈별 이모지
-                            my_park_button = st.button('☆', key=f"oil_{i[name]}") # 각 주차장명을 키값으로 사용
+                        if not is_wish('p', i[name], i[addr]): # 내 주차장 테이블에 없으면 빈별 이모지
+                            if st.button('☆', key=f"oil_{i[name]}"): 
+                                toggle_wish('p', i[name], i[addr], i[tel], False)
+                                st.rerun()
                         else: # 내 주차장 테이블에 있으면 별 이모지
-                            my_park_button = st.button('⭐', key=f"oil_{i[name]}") 
+                            if st.button('⭐', key=f"oil_{i[name]}"):
+                                toggle_wish('p', i[name], i[addr], i[tel], True) 
+                                st.rerun()
 
                     if idx + 1< len(page_items):
                         st.divider()

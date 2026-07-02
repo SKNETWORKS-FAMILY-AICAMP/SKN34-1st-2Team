@@ -78,13 +78,18 @@ with list_col:
 
         # 기본검색
         if st.session_state.oil_keyword:
-            display_oil("all", st.session_state.oil_keyword)
-        # 착한 주유소 보기
-        elif oil_radio == '착한주유소 보기':
-            display_oil('good_oil')
-        # 내 주유소 보기
-        elif oil_radio == '내주유소 보기':
-            display_oil('my_oil')
+            # 검색
+            if oil_radio == '검색':
+                mode = "all"
+            # 착한주유소 보기
+            elif oil_radio == '착한주유소 보기':
+                mode = "my_oil"
+            # 내 주유소 보기
+            elif oil_radio == '내 주유소 보기':
+                mode = "good_oil"
+
+            display_oil(mode, st.session_state.oil_keyword)
+            
         # 검색이 없을 때
         else:
             with st.container(height=650):
