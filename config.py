@@ -9,6 +9,6 @@ API_KEY = os.getenv("API_KEY") if os.getenv("API_KEY") else "d3c50f72560e702df41
 DB_HOST = os.getenv("DB_HOST") if os.getenv("DB_HOST") else "localhost"
 DB_USER = os.getenv("DB_USER") if os.getenv("DB_USER") else "root"
 DB_PASSWORD = os.getenv("DB_PASSWORD") if os.getenv("DB_PASSWORD") else "1234"
-DB_NAME = os.getenv("DB_NAME") if os.getenv("DB_NAME") else "test"
+DB_NAME = os.getenv("DB_NAME") if os.getenv("DB_NAME") else "oilparkdb"
 KAKAO_MAP_KEY = os.getenv("KAKAO_MAP_KEY") if os.getenv("KAKAO_MAP_KEY") else "40cfabb95218e3ae03284f1df1282720"
 KAKAO_REST_API_KEY = os.getenv("KAKAO_REST_API_KEY") if os.getenv("KAKAO_REST_API_KEY") else "84ec335aa1f811ce924461a9d711032a"
