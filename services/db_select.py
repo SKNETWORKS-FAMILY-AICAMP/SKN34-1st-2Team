@@ -6,7 +6,7 @@ def goodoil_loc():
     if not db.conn:
         return
     
-    cursor = db.conn.cursor(dictionary=True)
+    cursor = db.conn.cursor(dictionary=True) # 딕셔너리 형태로 반환
 
     sql = """
         SELECT 

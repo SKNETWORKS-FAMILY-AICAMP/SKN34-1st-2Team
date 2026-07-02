@@ -8,7 +8,7 @@ if db.conn:
     cursor = db.conn.cursor()
 
     try:
-        with open("data/parkinglots_data.csv", "r", encoding = 'cp949') as csvfile:
+        with open("../data/parkinglots_data.csv", "r", encoding = 'cp949') as csvfile:
             reader = csv.DictReader(csvfile)
 
             insert_count = 0
@@ -19,19 +19,19 @@ if db.conn:
                 latitude = row.get('위도')
                 longitude = row.get('경도')
 
-                if not p_name:  # 주차장명이 null이면 넘어감
+                if not p_name or not p_addr or p_addr.strip() == '':  # 주차장명이 null이면 넘어감
                     continue
                 
                 if not latitude or not longitude:
                     continue
-
-                sql = """
-                    INSERT INTO park (p_name, p_addr, p_phone, latitude, longitude)
-                    VALUES (%s, %s, %s, %s, %s)
-                """
-
-                cursor.execute(sql, (p_name, p_addr, p_phone, latitude, longitude))
-                insert_count += 1
+                try:
+                    sql = """
+                        INSERT INTO park_log (p_name, p_addr, p_phone, latitude, longitude)
+                        VALUES (%s, %s, %s, %s, %s)
+                    """
+                    cursor.execute(sql, (p_name, p_addr, p_phone, latitude, longitude))
+                    if cursor.rowcount > 0: insert_count += 1
+                except: continue
 
             db.conn.commit()
             print(f'주차장 데이터 {insert_count}건 저장 완')
@@ -51,7 +51,7 @@ if db.conn:
     cursor = db.conn.cursor()
 
     try:
-        with open("data/gasstation_data.csv", "r", encoding = 'cp949') as csvfile:
+        with open("../data/gasstation_data.csv", "r", encoding = 'cp949') as csvfile:
             reader = csv.DictReader(csvfile)
 
             insert_count = 0
@@ -62,19 +62,20 @@ if db.conn:
                 latitude = row.get('위도')
                 longitude = row.get('경도')
 
-                if not o_name:  
+                if not o_name or not o_addr or o_addr.strip() == '':  
                     continue
                 
                 if not latitude or not longitude:
                     continue
 
-                sql = """
-                    INSERT INTO oil (o_name, o_addr, o_phone, latitude, longitude)
-                    VALUES (%s, %s, %s, %s, %s)
-                """
-
-                cursor.execute(sql, (o_name, o_addr, o_phone, latitude, longitude))
-                insert_count += 1
+                try:
+                    sql = """
+                        INSERT INTO oil_log (o_name, o_addr, o_phone, latitude, longitude)
+                        VALUES (%s, %s, %s, %s, %s)
+                    """
+                    cursor.execute(sql, (o_name, o_addr, o_phone, latitude, longitude))
+                    if cursor.rowcount > 0: insert_count += 1
+                except: continue
 
             db.conn.commit()
             print(f'주유소 데이터 {insert_count}건 저장 완')
@@ -118,7 +119,7 @@ def insert_goodoil(db):
                     continue
 
                 sql = """
-                    INSERT INTO goodoil (g_name, g_addr, g_phone, gasoline_price, diesel_price)
+                    INSERT IGNORE INTO goodoil (g_name, g_addr, g_phone, gasoline_price, diesel_price)
                     VALUES (%s, %s, %s, %s, %s)
                 """
 
