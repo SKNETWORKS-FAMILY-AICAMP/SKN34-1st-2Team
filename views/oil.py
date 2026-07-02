@@ -66,12 +66,8 @@ with map_col:
     
 with list_col:
         # 주유소 목록 레이아웃 작성
-        # 착한주유소 보기와 내 주유소 보기 체크박스 생성
-        checkbox_good, checkbox_my = st.columns([1, 1])
-        with checkbox_good:
-            is_good_oil = st.checkbox('착한주유소 보기')
-        with checkbox_my:
-            is_my_oil = st.checkbox('내 주유소 보기')
+        # 검색, 착한주유소 보기, 내 주유소 보기 라디오 버튼 생성
+        oil_radio = st.radio(label='oil_radio', options = ['검색', '착한주유소 보기', '내 주유소 보기'], horizontal=True, label_visibility='hidden')
 
         # 검색창 생성
         search_q = search_input("Search", label_visibility="collapsed", key="ex_search")
@@ -82,7 +78,19 @@ with list_col:
 
         # 기본검색
         if st.session_state.oil_keyword:
-            display_oil("all", st.session_state.oil_keyword)
+            # 검색
+            if oil_radio == '검색':
+                mode = "all"
+            # 착한주유소 보기
+            elif oil_radio == '착한주유소 보기':
+                mode = "my_oil"
+            # 내 주유소 보기
+            elif oil_radio == '내 주유소 보기':
+                mode = "good_oil"
+
+            display_oil(mode, st.session_state.oil_keyword)
+            
+        # 검색이 없을 때
         else:
             with st.container(height=650):
                 st.markdown('<p style="text-align:center;padding:20px;">주소를 입력해 주세요.</p>', unsafe_allow_html=True)

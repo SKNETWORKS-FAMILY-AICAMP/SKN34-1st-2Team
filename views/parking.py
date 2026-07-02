@@ -65,21 +65,19 @@ with map_col:
     components.html(html, height=750)
     
 with list_col:
-        # 주차장 목록 레이아웃 작성
-        # 보기와 내 주차장 보기 체크박스 생성
-        checkbox_good, checkbox_my = st.columns([1, 1])
-        is_my_parking = st.checkbox('내 주차장 보기')
+    # 주차장 목록 레이아웃 작성
+    # 검색, 내 주차장 보기 라디오 버튼 생성
+    park_radio = st.radio(label='park_radio', options = ['검색', '내 주차장 보기'], horizontal=True, label_visibility='hidden')
 
-        # 검색창 생성
-        search_q = search_input("Search", label_visibility="collapsed", key="ex_search")
-        if search_q != "" and search_q != st.session_state.park_keyword:
-            # 검색 로직 구현
-            st.session_state.park_keyword = search_q
-            st.session_state.parking_page = 1
-
-        # 검색을 하지 않으면 주차장 테이블 전체 표시
-        if st.session_state.park_keyword:
-            display_park("all", st.session_state.park_keyword)
-        else:
-            with st.container(height=650):
-                st.markdown('<p style="text-align:center;padding:20px;">주소를 입력해 주세요.</p>', unsafe_allow_html=True)
+    # 검색창 생성
+    search_q = search_input("Search", label_visibility="collapsed", key="ex_search")
+    if search_q:
+        # 검색 로직 구현
+        display_park('all', search_q)
+    # 내 주차장 보기
+    elif park_radio == '내 주차장 보기':
+        display_park('my_park')
+    # 검색이 없을 때
+    else:
+        with st.container(height=650):
+            st.markdown('<p style="text-align: center; padding: 20px 0;">검색된 내용이 없습니다.</p>', unsafe_allow_html=True)
