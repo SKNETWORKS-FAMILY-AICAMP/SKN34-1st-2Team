@@ -52,8 +52,8 @@ project_1st/
 ## ⚙️ ERD
 **<주요 테이블 관계>**  
 `goodoil` : 착한 주유소 저장 테이블로 이름, 주소, 전화번호, 가격정보 등 저장  
-`wishllist` : 즐겨찾기 저장 테이블로 주유소/주차장 타입, 이름, 주소, 전화번호 등 저장  
-`park_log`, `oil_log`: 주차장과 주유소 데이터를 저장  
+`wishlist` : 즐겨찾기 저장 테이블로 주유소/주차장 타입, 이름, 주소, 전화번호 등 저장  
+`oil_log`, `park_log`: 주차장과 주유소 데이터를 저장  
 ![ERD](./assets/erd.png)  
 
 | 컬럼명 | 데이터 타입 | Null | Key | Default | Extra |
