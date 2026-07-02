@@ -5,11 +5,19 @@ import math
 
 # 주유소 목록을 체크박스 조건에 따라 시각화
 def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil, my_good_oil 중 택일
+    # 형식 통일
     if condition == 'all':
-        api_info = api.search_address('oil', keyword)
+        data = api.search_address('oil', keyword)
+        name = "conmNm"
+        addr = "lctnRoadNm"    
+        tel = "telno"
+        lat = "lat"
+        lot = "lot"
+        tip = "rprsvNm"
+        
     # 주유소 명으로 불러오기
     # api_val = api.search_name('oil', '(주)대농석유 남태령주유소')
-    # st.write(api_val[0]['lctnRoadNm'])
+    # st.write(api_val[0][addr])
 
     # 페이징
     PAGE_SIZE = 3      # 한 페이지당 데이터 개수
@@ -18,7 +26,7 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil, my_good_
     if "oil_page" not in st.session_state:
         st.session_state.oil_page = 1
 
-    total_pages = max(1, math.ceil(len(api_info) / PAGE_SIZE))
+    total_pages = max(1, math.ceil(len(data) / PAGE_SIZE))
 
     # 현재 페이지 보정
     st.session_state.oil_page = min(
@@ -29,7 +37,7 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil, my_good_
     # 현재 페이지 데이터
     start = (st.session_state.oil_page - 1) * PAGE_SIZE
     end = start + PAGE_SIZE
-    page_items = api_info[start:end]
+    page_items = data[start:end]
 
     # 전체 주유소 목록 시각화
     if condition == 'all':
@@ -44,24 +52,24 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil, my_good_
                 # 주유소 정보 레이아웃
                 with oil_info_col:
                     # 유가 정보 db에서 받아와서 툴팁에 작성
-                    st.subheader(i['conmNm'], help=i['rprsvNm'])
-                    st.text(i['lctnRoadNm'])
-                    st.text(i['telno'] if i['telno'] else "없음")
+                    st.subheader(i[name], help=i[tip])
+                    st.text(i[addr])
+                    st.text(i[tel] if i[tel] else "없음")
 
                 with my_oil_button_col:
-                    if st.button("선택", key=i["conmNm"]):
-                        st.session_state.location = [float(i["lat"]), float(i["lot"])]
+                    if st.button("선택", key=i[name]):
+                        st.session_state.location = [float(i[lat]), float(i[lot])]
                         st.rerun()
                     # 찜버튼 레이아웃
                     if True:  # 내 주유소 테이블에 없으면 빈별 이모지
                         my_oil_button = st.button(
                             '☆',
-                            key=f"oil_{i['conmNm']}"
+                            key=f"oil_{i[name]}"
                         )
                     else:  # 내 주유소 테이블에 있으면 별 이모지
                         my_oil_button = st.button(
                             '⭐',
-                            key=f"oil_{i['conmNm']}"
+                            key=f"oil_{i[name]}"
                         )
 
                 if idx + 1< len(page_items):
@@ -69,7 +77,7 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil, my_good_
                 else:
                     st.markdown('<div style="disply: block; height: 55px;"></div>', unsafe_allow_html=True)
                 
-            if not api_info:
+            if not data:
                 # 검색 내용이 없으면
                 st.markdown('<p style="text-align:center;padding:20px;">검색된 내용이 없습니다.</p>', unsafe_allow_html=True)
 
@@ -85,7 +93,7 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil, my_good_
     elif condition == 'my_good_oil':
         pass
 
-    if api_info:
+    if data:
         # 페이지 버튼 UI
         current_block = (st.session_state.oil_page - 1) // BLOCK_SIZE
 
@@ -119,7 +127,7 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil, my_good_
                 
 # 주차장 목록을 체크박스 조건에 따라 시각화
 def display_park(condition='all', keywrod=""): # all, my_park 중 택일
-    api_info = api.search_address('parking', keywrod)
+    data = api.search_address('parking', keywrod)
 
     # 전체 주차장 목록 시각화
     if condition == 'all':

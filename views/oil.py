@@ -30,7 +30,7 @@ with map_col:
     <html>
     <head>
     <meta charset="utf-8">
-    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey={cf.KAKAO_MAP_KEY}"></script>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey={cf.KAKAO_MAP_KEY}&libraries=services"></script>
     </head>
 
     <body style="margin:0;">
@@ -39,22 +39,42 @@ with map_col:
     <script>
 
     var mapContainer = document.getElementById('map');
-    
+
     var mapOption = {{
-        center: new kakao.maps.LatLng({lat}, {lot}),
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
         level: 3
     }};
 
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
-    var markerPosition = new kakao.maps.LatLng({lat}, {lot});
+    var geocoder = new kakao.maps.services.Geocoder();
 
-    var marker = new kakao.maps.Marker({{
-        position: markerPosition
+    geocoder.addressSearch("제주특별자치도 제주시 첨단로 242", function(result, status) {{
+
+        if (status === kakao.maps.services.Status.OK) {{
+
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+            // 마커 생성
+            var marker = new kakao.maps.Marker({{
+                position: coords
+            }});
+
+            // 지도에 마커 표시
+            marker.setMap(map);
+
+            // 인포윈도우
+            var infowindow = new kakao.maps.InfoWindow({{
+                content: '<div style="padding:5px;text-align:center;">지도</div>'
+            }});
+
+            infowindow.open(map, marker);
+
+            // 지도 중심 이동
+            map.setCenter(coords);
+        }}
     }});
-
-    marker.setMap(map);
-
+console.log(coords);
     </script>
 
     </body>
