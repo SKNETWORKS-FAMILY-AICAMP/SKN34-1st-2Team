@@ -14,9 +14,9 @@ class Api:
     #api 불러오기 메서드
     def connect(self, kind):
         API_INFO = {
-            "parking": {
+            "park": {
                 "url": "https://api.data.go.kr/openapi/tn_pubr_prkplce_info_api",
-                "cache": "parking.pkl"
+                "cache": "park.pkl"
             },
             "oil": {
                 "url": "https://api.data.go.kr/openapi/tn_pubr_public_conm_api",
@@ -88,7 +88,7 @@ class Api:
         data = self.connect(kind)
         result = []
         
-        if kind == "parking":
+        if kind == "park":
             key1 = "lnmadr"
             key2 = "rdnmadr"
         elif kind == "oil":
@@ -107,7 +107,7 @@ class Api:
         data = self.connect(kind)
         result = []
         
-        if kind == "parking":
+        if kind == "park":
             key = "prkplceNm"
         elif kind == "oil":
             key = "conmNm"

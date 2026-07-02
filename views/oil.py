@@ -4,15 +4,17 @@ import streamlit.components.v1 as components
 import mysql.connector
 from components.display_list import display_oil
 import config as cf
+from utils import kakao
 
 # 페이지 레이아웃을 꽉찬 화면으로 설정
 st.set_page_config(layout='wide')
 
-# 위도, 경도 값
-if "location" not in st.session_state:
-    st.session_state.location = [37.4682, 126.8861] # 플레이데이터 위도, 경도
+# 주소값
+if "oil_location" not in st.session_state:
+    st.session_state.oil_location = "가산디지털1로 25 18층 플레이데이터" # 플레이데이터 주소
 
-lat, lot = st.session_state.location
+# st.session_state.oil_location: 검색한 주소값 
+lat, lot = kakao.address_to_latlng(st.session_state.oil_location)
 
 # 페이징 위한 세션 설정
 if "oil_keyword" not in st.session_state:
@@ -60,7 +62,6 @@ with map_col:
     </body>
     </html>
     """
-
     components.html(html, height=750)
     
 with list_col:
@@ -75,7 +76,7 @@ with list_col:
             st.session_state.oil_keyword = search_q
             st.session_state.oil_page = 1
 
-        # 검색
+        # 기본검색
         if st.session_state.oil_keyword:
             display_oil("all", st.session_state.oil_keyword)
         # 착한 주유소 보기
