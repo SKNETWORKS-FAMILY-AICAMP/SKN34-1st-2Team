@@ -34,26 +34,32 @@ def toggle_wish(type, name, addr, phone, is_wish):
 
 # wishlist 테이블 데이터 반환 함수
 def get_wish(type):
+    # 리턴할 리스트 선언
+    data_wish = []
+
     if db.conn and db.conn.is_connected():
-        cursor = db.conn.cursor()
+        cursor = db.conn.cursor(dictionary=True)
         # 내 주차장 or 내 주유소 조회
         sql = 'SELECT name, addr, phone FROM wishlist WHERE type = %s ORDER BY created_at DESC'
         cursor.execute(sql, type)
         # data에 데이터 할당
-        data = cursor.fetchall()
+        data_wish = cursor.fetchall()
         cursor.close()
 
-    return data
+    return data_wish
 
 # good_oil 테이블 데이터 반환 함수
 def get_good_oil():
+    # 리턴할 리스트 선언
+    data_good= []
+
     if db.conn and db.conn.is_connected():
-        cursor = db.conn.cursor()
+        cursor = db.conn.cursor(dictionary=True)
         # 착한 주유소 조회
-        sql = 'SELECT name, addr, phone, gasoline_price, diesel_price FROM goodoil'
+        sql = 'SELECT g_name, g_addr, g_phone, gasoline_price, diesel_price FROM goodoil'
         cursor.execute(sql)
         # data에 데이터 할당
-        data = cursor.fetchall()
+        data_good = cursor.fetchall()
         cursor.close()
 
-    return data
+    return data_good

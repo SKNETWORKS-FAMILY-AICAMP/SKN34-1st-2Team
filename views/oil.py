@@ -83,10 +83,10 @@ with list_col:
                 mode = "all"
             # 착한주유소 보기
             elif oil_radio == '착한주유소 보기':
-                mode = "my_oil"
+                mode = "good_oil"
             # 내 주유소 보기
             elif oil_radio == '내 주유소 보기':
-                mode = "good_oil"
+                mode = "my_oil"
 
             display_oil(mode, st.session_state.oil_keyword)
             

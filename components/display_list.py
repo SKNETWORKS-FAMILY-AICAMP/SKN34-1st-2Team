@@ -21,7 +21,8 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil
     elif condition == 'my_oil':
         data = get_wish('o')
         name = "name"
-        addr = "addr"    
+        addr1 = "addr"
+        addr2 = 'addr'    
         tel = "phone"
         lat = "lat"
         lot = "lot"
@@ -31,7 +32,8 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil
     elif condition == 'good_oil':
         data = get_good_oil()
         name = "g_name"
-        addr = "g_addr"    
+        addr1 = "g_addr"
+        addr2 = 'g_addr'    
         tel = "g_phone"
         lat = "lat"
         lot = "lot"
@@ -83,12 +85,12 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil
                     st.rerun()
                     
                 # 찜버튼 레이아웃
-                if not is_wish('o', i[name], i[addr]):  # 내 주유소 테이블에 없으면 빈별 이모지
+                if not is_wish('o', i[name], i[addr1]):  # 내 주유소 테이블에 없으면 빈별 이모지
                     if st.button(
                         '☆',
                         key=f"oil_{i[name]}"
                     ):
-                        toggle_wish('o', i[name], i[addr], i[tel], False) # 클릭하면 테이블에 추가
+                        toggle_wish('o', i[name], i[addr1], i[tel], False) # 클릭하면 테이블에 추가
                         st.rerun()
                 
                 else:  # 내 주유소 테이블에 있으면 별 이모지
@@ -96,7 +98,7 @@ def display_oil(condition='all', keyword=""):  # all, my_oil, good_oil
                         '⭐',
                         key=f"oil_{i[name]}"
                     ):
-                        toggle_wish('o', i[name], i[addr], i[tel], True) # 클릭하면 테이블에서 삭제
+                        toggle_wish('o', i[name], i[addr1], i[tel], True) # 클릭하면 테이블에서 삭제
                         st.rerun()
             
             if idx + 1< len(page_items):
@@ -154,7 +156,7 @@ def display_park(condition='all', keyword=""): # all, my_park 중 택일
         data = get_wish('p')
         name = "name" 
         addr1 = "addr" # 도로명
-        addr2 = "lnmadr" #지번 
+        addr2 = "addr" #지번 
         tel = "phoneNumber"
     
     # 페이징
@@ -199,13 +201,14 @@ def display_park(condition='all', keyword=""): # all, my_park 중 택일
                         st.session_state.park_location = i[addr1] if i[addr1] else i[addr2]
                         st.rerun()
                         
-                    if not is_wish('p', i[name], i[addr]): # 내 주차장 테이블에 없으면 빈별 이모지
+                    if not is_wish('p', i[name], i[addr1]): # 내 주차장 테이블에 없으면 빈별 이모지
                         if st.button('☆', key=f"oil_{i[name]}"): 
-                            toggle_wish('p', i[name], i[addr], i[tel], False)
+                            toggle_wish('p', i[name], i[addr1], i[tel], False)
                             st.rerun()
+
                     else: # 내 주차장 테이블에 있으면 별 이모지
                         if st.button('⭐', key=f"oil_{i[name]}"):
-                            toggle_wish('p', i[name], i[addr], i[tel], True) 
+                            toggle_wish('p', i[name], i[addr1], i[tel], True) 
                             st.rerun()
 
                 if idx + 1< len(page_items):
