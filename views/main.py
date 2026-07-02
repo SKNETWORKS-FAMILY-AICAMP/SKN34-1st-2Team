@@ -50,5 +50,5 @@ def get_image_link_html(file_path, link_target, width=200):
     # 하나의 덩어리로 HTML 구성
     return f'<a href="{link_target}" target="_self" class="st-link fade-in"><img src="{src}" style="width:{width}px;">당 신 의 주 유 / 주 차 를 빠 르 게 😋</a>'
 
-logo_html = get_image_link_html("../assets/logo.png", "oil", width=400)
+logo_html = get_image_link_html("assets/logo.png", "oil", width=400)
 st.markdown(logo_html, unsafe_allow_html=True)
