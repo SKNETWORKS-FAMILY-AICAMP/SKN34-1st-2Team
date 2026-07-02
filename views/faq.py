@@ -3,8 +3,10 @@ import pandas as pd
 import os
 
 # 1. 데이터 로드 
-EXCEL_PATH = r'C:\Users\SJ\web_crawling\03_dynamic_web_crawling\faq_data.xlsx'
-# 상대 경로 복사 해야됨. 아직 안함
+EXCEL_PATH = r'../data\faq_data.xlsx'
+#../data\views\faq.py
+# 상대 경로 복사
+# data\faq_data.xlsx
 
 @st.cache_data
 def load_data():
@@ -43,13 +45,13 @@ st.title("⛽ FAQ 페이지")
 st.write(f"총 {len(faq_data)}개의 문의사항이 있습니다.")
 
 for item in current_faqs:
-    # 엑셀의 '제목', '내용' 컬럼명에 맞춰 사용하세요
+    # 엑셀의 '제목', '내용' 컬럼명에 맞춰 사용
     with st.expander(f"📌 {item['제목']}"):
         st.write(item['내용'])
         
         # 파일 다운로드 로직 (downloads 폴더 내 파일 확인)
         file_path = os.path.join(r'C:\Users\SJ\web_crawling\03_dynamic_web_crawling\downloads', f"{item['제목']}.pdf")
-        
+        # (첨부파일) 
         #상대경로복사 아직 안함
 
 
